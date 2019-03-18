@@ -1,8 +1,8 @@
 ---
 title: "Mini-Project 2"
-author: "Your Name Here"
+author: "Jessica and Anna"
 date: "2019-03-24"
-output: 
+output: lalal
   html_document:
     code_folding: show
 ---
