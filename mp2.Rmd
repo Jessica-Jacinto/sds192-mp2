@@ -18,10 +18,27 @@ load("committees.rda")
 load("contributions.rda")
 ```
 
-```{r}
+
 glimpse(house_elections)
 glimpse(candidates)
 glimpse(committees)
 glimpse(contributions)
+
+
+```{r}
+table1 <- house_elections %>%
+  select(party, state, ge_winner) %>%
+  filter(party == "R")
+print(table1)
 ```
 
+```{r}
+cont_filter <- contributions %>%
+  select(state, transaction_amt, transaction_type) %>%
+  filter(transaction_type == "24A" | transaction_type == "24E")
+```
+
+```{r}
+table2 <- table1 %>%
+  left_join(cont_filter, by = "state")
+print(table2)
