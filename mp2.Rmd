@@ -27,18 +27,23 @@ glimpse(contributions)
 
 ```{r}
 table1 <- house_elections %>%
-  select(party, state, ge_winner) %>%
-  filter(party == "R")
+  select(party, state, ge_winner, fec_id) %>%
+  filter(state == "FL")
 print(table1)
 ```
 
 ```{r}
 cont_filter <- contributions %>%
   select(state, transaction_amt, transaction_type) %>%
-  filter(transaction_type == "24A" | transaction_type == "24E")
+  filter(transaction_type == "24A" | transaction_type == "24E") %>%
+print(cont_filter)
 ```
 
 ```{r}
 table2 <- table1 %>%
-  left_join(cont_filter, by = "state")
+  left_join(cont_filter, by = "state") %>%
+  filter(ge_winner == "W" | ge_winner == "N") %>%
+  group_by(fec_id, transaction_type, party, ge_winner) %>%
+  summarize(total_transaction = sum(transaction_amt)) %>%
+  spread(key = transaction_type, value = total_transaction)
 print(table2)
