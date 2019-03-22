@@ -1,0 +1,42 @@
+---
+title: "Mini-Project 2"
+author: "Jessica Jacinto and Anna Ballou"
+date: "2019-03-24"
+output: 
+  html_document:
+    code_folding: show
+---
+
+```{r, message=FALSE, include = FALSE}
+library(tidyverse)
+library(ggplot2)
+library(qsub)
+load("house_elections.rda")
+load("candidates.rda")
+load("committees.rda")
+load("contributions.rda")
+```
+First we selected the variables from the house selection table that were relevant to our investigation. 
+```{r}
+elections_table <- house_elections %>%
+  select(state, party)
+print(elections_table)
+```
+Next we selected the variables from the contributions table that were relevant to our investigation. We filtered out all transactions amounts greater than zero as we only wanted to examine cases were actual transactions were made. 
+```{r}
+contributions_table <- contributions %>%
+  select(state, transaction_amt) %>%
+  filter(transaction_amt > 0)
+print(contributions_table)
+```  
+Lastly, we joined the two tables by state and calculated the average transaction amount for each state. 
+```{r}
+final_table <- elections_table %>%
+  inner_join(contributions_table, by = c("state")) %>%
+  group_by(state) %>%
+  summarize(avg_transaction = mean(transaction_amt))
+print(final_table)
+```
+
+#Data Explanation
+Higher values of avgerage transaction indicates that a state's committees designates more money on the politics. From spending against a candidate to loans, any amount of money indicates that a state assigned more monetary value to its political climate.
