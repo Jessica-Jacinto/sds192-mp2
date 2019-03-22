@@ -16,34 +16,35 @@ load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 ```
+#Data Wrangling
 First we selected the variables from the house selection table that were relevant to our investigation. 
 ```{r}
 elections_table <- house_elections %>%
   select(state, party) %>%
   filter(state == "IL" | state == "IN" | state == "IA" | state == "KS" | state == "MI" | state == "MN" | state == "MO" | state == "NE" | state == "ND" | state == "OH" | state == "SD" | state == "WI")
-print(elections_table)
 ```
 Next we selected the variables from the contributions table that were relevant to our investigation. We filtered out all transactions amounts greater than zero as we only wanted to examine cases were actual transactions were made. 
 ```{r}
 contributions_table <- contributions %>%
   select(state, transaction_amt) %>%
   filter(transaction_amt > 0)
-print(contributions_table)
 ```  
-Lastly, we joined the two tables by state and calculated the average transaction amount for each state. 
+Lastly, we joined the two tables by state and calculated the average transaction amount for each state. We arranged the table from greatest average transaction to least. 
 ```{r}
 final_table <- elections_table %>%
   inner_join(contributions_table, by = c("state")) %>%
   group_by(state) %>%
-  summarize(avg_transaction = mean(transaction_amt))
+  summarize(avg_transaction = mean(transaction_amt)) %>%
+  arrange(desc(avg_transaction))
 print(final_table)
 ```
 
-Data Graphic
+#Data Graphic
+We plotted state (in the midwest) against the average transaction amount for that state. 
 ```{r}
 state_graph <- ggplot(data = final_table, aes(x=state, y=avg_transaction)) +
   geom_bar(mapping = NULL, data = NULL, stat = "identity") +
-  scale_y_continuous("Average Transaction Amount ($)") +
+  scale_y_continuous("Average Transaction Amount ($)", expand=c(0,0)) +
   scale_x_discrete("State") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ggtitle("Average Committee Transactions by State in the Midwest", 
@@ -55,7 +56,18 @@ print(state_graph)
 ```
 
 #Data Explanation
-Higher values of avgerage transaction indicates that a state's committees designates more money on the politics. From spending against a candidate to loans, any amount of money indicates that a state assigned more monetary value to its political climate.
+Higher values of avgerage transaction indicates that a state's committees designate greater amounts of money to politics. Including transaction types from spending against a candidate to loans, a higher average indicates that a state assigned more monetary value to its political climate.
 
 #function
+region options:
+```{r}
+
+north_east = c("MA","CT", "NJ", "PA", "NY", "VT", "RI", "ME", "NH")
+
+south = c("FL", "SC", "NC", "TN", "GA", "DE", "MD", "VA", "WV", "MI", "AL", "TX", "OK", "KY", "AR", "LA")
+
+west = c("AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AL", "CA" , "HI", "OR", "WA")
+
+mid_west = c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI")
+```
 input different state regions 
