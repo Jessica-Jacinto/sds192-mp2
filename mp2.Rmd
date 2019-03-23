@@ -6,44 +6,53 @@ output:
   html_document:
     code_folding: show
 ---
-##changing file
 
-## Loading the data
-
-```{r, message=FALSE}
+```{r, message=FALSE, include = FALSE}
 library(tidyverse)
+library(ggplot2)
+library(qsub)
 load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 ```
-
-
-glimpse(house_elections)
-glimpse(candidates)
-glimpse(committees)
-glimpse(contributions)
-
-
+First we selected the variables from the house elections table that were relevant for our investigation. We chose to focus on Florida as it is often a swing state in elections. 
 ```{r}
-table1 <- house_elections %>%
+election_table <- house_elections %>%
   select(party, state, ge_winner, fec_id) %>%
   filter(state == "FL")
-print(table1)
+print(election_table)
 ```
-
+Next we selected the relevant variables from the contributions table. We chose to focus on 24A transaction type. The significance of this will be explained in our analysis. 
 ```{r}
 cont_filter <- contributions %>%
-  select(state, transaction_amt, transaction_type) %>%
-  filter(transaction_type == "24A" | transaction_type == "24E") %>%
+  select(transaction_amt, transaction_type, cand_id) %>%
+  filter(transaction_type == "24A") %>%
 print(cont_filter)
 ```
 
 ```{r}
-table2 <- table1 %>%
-  left_join(cont_filter, by = "state") %>%
+new_table <- cont_filter %>%
+  rename(fec_id = cand_id) %>%
+  group_by(fec_id)
+print(new_table)
+```
+Lastly, we joined the two tables by fec_id (to ensure that only values corresponding to each candidate from the edited contributions table would be used). We also chose to only look at candidates with a documented outcome (either win or loss) and included their total transaction amounts and the type of transaction. 
+```{r}
+finaltable <- election_table %>%
+  inner_join(new_table, by = "fec_id") %>%
   filter(ge_winner == "W" | ge_winner == "N") %>%
-  group_by(fec_id, transaction_type, party, ge_winner) %>%
-  summarize(total_transaction = sum(transaction_amt)) %>%
-  spread(key = transaction_type, value = total_transaction)
-print(table2)
+  group_by(transaction_type, party, ge_winner) %>%
+  select(-state) %>%
+  tibble::rowid_to_column() %>%
+  spread(key = transaction_type, value = transaction_amt) %>%
+  rename(funds_against = '24A')
+
+print(finaltable)
+```
+
+```{r}
+party_plot <- ggplot(data = finaltable,aes(x = party, y = funds_against, color = ge_winner )) +
+  geom_point()
+print(party_plot)
+```
