@@ -64,6 +64,9 @@ Loop over the individual states in the midwest region.
 ```{r}
 #list of individual states 
 midwest = c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI")
+south = c("DE", "FL", "GA", "NC", "SC", "VA", "WV", "MD", "AL", "KY", "MI", "TN", "AK", "LA", "OK", "TX")
+northeast = c("CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA")
+west = c("AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AL", "CA", "HI", "OR", "WA")
 ```
 ```{r}
 
