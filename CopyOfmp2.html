@@ -268,27 +268,15 @@ print(state_graph)</code></pre>
 <p>Loop over the individual states in the midwest region.</p>
 <pre class="r"><code>#list of individual states 
 midwest = c(&quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MI&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;OH&quot;, &quot;SD&quot;, &quot;WI&quot;)</code></pre>
-<<<<<<< HEAD
-<pre class="r"><code>state_list &lt;- unique(midwest)
-for (i in seq_along(state_list)) { 
-  elections_individual &lt;- house_elections %&gt;%
-  select(state, party) %&gt;%
-  filter(state == state_list[i])
-=======
-<pre class="r"><code>state_list &lt;- function(state_arg){ 
+<pre class="r"><code>state_list &lt;- function(state_arg){
   elections_individual &lt;- house_elections %&gt;%
   select(state, party) %&gt;%
   filter(state == state_arg)
->>>>>>> 66fdde0630f61c526141e00c5e24329173821c24
   
   contributions_individual &lt;- contributions %&gt;%
   select(state, transaction_amt) %&gt;%
   filter(transaction_amt &gt; 0) %&gt;%
-<<<<<<< HEAD
-  filter(state == state_list[i])
-=======
   filter(state == state_arg)
->>>>>>> 66fdde0630f61c526141e00c5e24329173821c24
 
   final_individual &lt;- elections_table %&gt;%
   inner_join(contributions_individual, by = c(&quot;state&quot;)) %&gt;%
@@ -297,81 +285,7 @@ for (i in seq_along(state_list)) {
   arrange(desc(avg_transaction))
   print(final_individual)
   
-<<<<<<< HEAD
 }</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 IL              3368.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 IN              2282.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 IA              2343.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 KS              1559.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 MI              1889.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 MN               928.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 MO              1890.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 NE              1969.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 ND              2801.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 OH               936.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 SD              1691.
-## # A tibble: 1 x 2
-##   state avg_transaction
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 WI              1228.</code></pre>
-=======
-  
-}
-state_list(midwest)</code></pre>
-<pre><code>## Warning in state == state_arg: longer object length is not a multiple of
-## shorter object length
-
-## Warning in state == state_arg: longer object length is not a multiple of
-## shorter object length</code></pre>
-<pre><code>## # A tibble: 12 x 2
-##    state avg_transaction
-##    &lt;chr&gt;           &lt;dbl&gt;
-##  1 IL              4950.
-##  2 IN              4306.
-##  3 ND              2728.
-##  4 NE              2214.
-##  5 IA              2112.
-##  6 MO              2062.
-##  7 MI              1852.
-##  8 SD              1637.
-##  9 KS              1575.
-## 10 WI              1241.
-## 11 MN               949.
-## 12 OH               884.</code></pre>
->>>>>>> 66fdde0630f61c526141e00c5e24329173821c24
 </div>
 
 
