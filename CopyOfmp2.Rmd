@@ -6,6 +6,7 @@ output:
   html_document:
     code_folding: show
 ---
+Link to github repository: 
 
 ```{r, message=FALSE, include = FALSE}
 library(tidyverse)
@@ -59,15 +60,36 @@ print(state_graph)
 Higher values of avgerage transaction indicates that a state's committees designate greater amounts of money to politics. Including transaction types from spending against a candidate to loans, a higher average indicates that a state assigned more monetary value to its political climate.
 
 #function
-region options:
+Loop over the individual states in the midwest region. 
+```{r}
+#list of individual states 
+midwest = c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI")
+```
 ```{r}
 
-north_east = c("MA","CT", "NJ", "PA", "NY", "VT", "RI", "ME", "NH")
+state_list <- unique(midwest)
+for (i in seq_along(state_list)) { 
+  elections_individual <- house_elections %>%
+  select(state, party) %>%
+  filter(state == state_list[i])
+  
+  contributions_individual <- contributions %>%
+  select(state, transaction_amt) %>%
+  filter(transaction_amt > 0) %>%
+  filter(state == state_list[i])
 
-south = c("FL", "SC", "NC", "TN", "GA", "DE", "MD", "VA", "WV", "MI", "AL", "TX", "OK", "KY", "AR", "LA")
+  final_individual <- elections_table %>%
+  inner_join(contributions_individual, by = c("state")) %>%
+  group_by(state) %>%
+  summarize(avg_transaction = mean(transaction_amt)) %>%
+  arrange(desc(avg_transaction))
+  print(final_individual)
+  
+}
+``` 
 
-west = c("AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AL", "CA" , "HI", "OR", "WA")
 
-mid_west = c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "WI")
-```
-input different state regions 
+
+
+
+
