@@ -85,6 +85,8 @@ state_list <- function(state_arg){
   print(final_individual)
   
 }
+state_list(midwest)
+
 ``` 
 
 
