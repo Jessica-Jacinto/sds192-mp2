@@ -67,16 +67,15 @@ midwest = c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "W
 ```
 ```{r}
 
-state_list <- unique(midwest)
-for (i in seq_along(state_list)) { 
+state_list <- function(state_arg){
   elections_individual <- house_elections %>%
   select(state, party) %>%
-  filter(state == state_list[i])
+  filter(state == state_arg)
   
   contributions_individual <- contributions %>%
   select(state, transaction_amt) %>%
   filter(transaction_amt > 0) %>%
-  filter(state == state_list[i])
+  filter(state == state_arg)
 
   final_individual <- elections_table %>%
   inner_join(contributions_individual, by = c("state")) %>%
