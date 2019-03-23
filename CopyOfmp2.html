@@ -268,7 +268,7 @@ print(state_graph)</code></pre>
 <p>Loop over the individual states in the midwest region.</p>
 <pre class="r"><code>#list of individual states 
 midwest = c(&quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MI&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;OH&quot;, &quot;SD&quot;, &quot;WI&quot;)</code></pre>
-<pre class="r"><code>state_list &lt;- function(state_arg){ 
+<pre class="r"><code>state_list &lt;- function(state_arg) { 
   elections_individual &lt;- house_elections %&gt;%
   select(state, party) %&gt;%
   filter(state == state_arg)
@@ -284,7 +284,6 @@ midwest = c(&quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quo
   summarize(avg_transaction = mean(transaction_amt)) %&gt;%
   arrange(desc(avg_transaction))
   print(final_individual)
-  
   
 }
 state_list(midwest)</code></pre>
