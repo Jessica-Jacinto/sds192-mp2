@@ -8,7 +8,7 @@ output:
 ---
 Link to github repository: 
 
-```{r, message=FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 library(tidyverse)
 library(ggplot2)
 library(ggthemes)
