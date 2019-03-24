@@ -267,7 +267,10 @@ print(state_graph)</code></pre>
 <h1>function</h1>
 <p>Loop over the individual states in the midwest region.</p>
 <pre class="r"><code>#list of individual states 
-midwest = c(&quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MI&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;OH&quot;, &quot;SD&quot;, &quot;WI&quot;)</code></pre>
+midwest = c(&quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quot;MI&quot;, &quot;MN&quot;, &quot;MO&quot;, &quot;NE&quot;, &quot;ND&quot;, &quot;OH&quot;, &quot;SD&quot;, &quot;WI&quot;)
+south = c(&quot;DE&quot;, &quot;FL&quot;, &quot;GA&quot;, &quot;NC&quot;, &quot;SC&quot;, &quot;VA&quot;, &quot;WV&quot;, &quot;MD&quot;, &quot;AL&quot;, &quot;KY&quot;, &quot;MI&quot;, &quot;TN&quot;, &quot;AK&quot;, &quot;LA&quot;, &quot;OK&quot;, &quot;TX&quot;)
+northeast = c(&quot;CT&quot;, &quot;ME&quot;, &quot;MA&quot;, &quot;NH&quot;, &quot;RI&quot;, &quot;VT&quot;, &quot;NJ&quot;, &quot;NY&quot;, &quot;PA&quot;)
+west = c(&quot;AZ&quot;, &quot;CO&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;NV&quot;, &quot;NM&quot;, &quot;UT&quot;, &quot;WY&quot;, &quot;AL&quot;, &quot;CA&quot;, &quot;HI&quot;, &quot;OR&quot;, &quot;WA&quot;)</code></pre>
 <pre class="r"><code>state_list &lt;- function(state_arg){
   elections_individual &lt;- house_elections %&gt;%
   select(state, party) %&gt;%
@@ -285,7 +288,28 @@ midwest = c(&quot;IL&quot;, &quot;IN&quot;, &quot;IA&quot;, &quot;KS&quot;, &quo
   arrange(desc(avg_transaction))
   print(final_individual)
   
-}</code></pre>
+}
+state_list(midwest)</code></pre>
+<pre><code>## Warning in state == state_arg: longer object length is not a multiple of
+## shorter object length
+
+## Warning in state == state_arg: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## # A tibble: 12 x 2
+##    state avg_transaction
+##    &lt;chr&gt;           &lt;dbl&gt;
+##  1 IL              4950.
+##  2 IN              4306.
+##  3 ND              2728.
+##  4 NE              2214.
+##  5 IA              2112.
+##  6 MO              2062.
+##  7 MI              1852.
+##  8 SD              1637.
+##  9 KS              1575.
+## 10 WI              1241.
+## 11 MN               949.
+## 12 OH               884.</code></pre>
 </div>
 
 
