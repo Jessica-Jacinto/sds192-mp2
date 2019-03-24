@@ -6,7 +6,7 @@ output:
   html_document:
     code_folding: show
 ---
-Link to github repository: 
+Link to github repository: https://github.com/Jessica-Jacinto/sds192-mp2.git
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 library(tidyverse)
@@ -22,7 +22,8 @@ First we selected the variables from the house selection table that were relevan
 ```{r, warning = FALSE}
 elections_table <- house_elections %>%
   select(state, party) %>%
-  filter(state == "IL" | state == "IN" | state == "IA" | state == "KS" | state == "MI" | state == "MN" | state == "MO" | state == "NE" | state == "ND" | state == "OH" | state == "SD" | state == "WI")
+  filter(state == "IL" | state == "IN" | state == "IA" | state == "KS" | state == "MI" | state == "MN" | state == "MO" | state == "NE" | state == "ND" | state == "OH" | state == "SD" | state == "WI") %>%
+  filter(party == "R")
 ```
 Next we selected the variables from the contributions table that were relevant to our investigation. We filtered out all transactions amounts greater than zero as we only wanted to examine cases were actual transactions were made. 
 ```{r}
@@ -34,7 +35,7 @@ Lastly, we joined the two tables by state and calculated the average transaction
 ```{r, warning = FALSE}
 final_table <- elections_table %>%
   inner_join(contributions_table, by = c("state")) %>%
-  group_by(state) %>%
+  group_by(state, party) %>%
   summarize(avg_transaction = mean(transaction_amt)) %>%
   arrange(desc(avg_transaction))
 print(final_table)
@@ -75,7 +76,8 @@ west = c("AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AL", "CA", "HI", "OR",
 state_list <- function(state_arg){
   elections_individual <- house_elections %>%
   select(state, party) %>%
-  filter(state == state_arg)
+  filter(state == state_arg) %>%
+  filter(party == "R")
 
   contributions_individual <- contributions %>%
   select(state, transaction_amt) %>%
@@ -85,7 +87,7 @@ state_list <- function(state_arg){
 
   final_individual <- elections_individual %>%
   inner_join(contributions_individual, by = c("state")) %>%
-  group_by(state) %>%
+  group_by(state, party) %>%
   summarize(avg_transaction = mean(transaction_amt)) %>%
   print(final_individual)
   
