@@ -68,6 +68,7 @@ south = c("DE", "FL", "GA", "NC", "SC", "VA", "WV", "MD", "AL", "KY", "MI", "TN"
 northeast = c("CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA")
 west = c("AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AL", "CA", "HI", "OR", "WA")
 ```
+
 ```{r}
 
 state_list <- function(state_arg){
