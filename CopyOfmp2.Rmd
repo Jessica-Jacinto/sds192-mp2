@@ -67,6 +67,7 @@ midwest = c("IL", "IN", "IA", "KS", "MI", "MN", "MO", "NE", "ND", "OH", "SD", "W
 south = c("DE", "FL", "GA", "NC", "SC", "VA", "WV", "MD", "AL", "KY", "MI", "TN", "AK", "LA", "OK", "TX")
 northeast = c("CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA")
 west = c("AZ", "CO", "ID", "MT", "NV", "NM", "UT", "WY", "AL", "CA", "HI", "OR", "WA")
+
 ```
 
 ```{r}
@@ -90,6 +91,9 @@ state_list <- function(state_arg){
   
 }
 state_list(midwest)
+state_list(south)
+state_list(northeast)
+state_list(west)
 
 ``` 
 
