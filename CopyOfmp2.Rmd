@@ -17,20 +17,21 @@ load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 ```
+
 ##Data Wrangling
-First we selected the variables from the house selection table that were relevant to our investigation. 
+First we selected the variables state and party from the house elections table because they were relevant to our investigation. Then further filtered through to only give us the states in the midwest to make a more focused data set.
 ```{r, warning = FALSE}
 elections_table <- house_elections %>%
   select(state, party) %>%
   filter(state == "IL" | state == "IN" | state == "IA" | state == "KS" | state == "MI" | state == "MN" | state == "MO" | state == "NE" | state == "ND" | state == "OH" | state == "SD" | state == "WI")
 ```
-Next we selected the variables from the contributions table that were relevant to our investigation. We filtered out all transactions amounts greater than zero as we only wanted to examine cases were actual transactions were made. 
+Next we selected the variables state and transaction_amt from the contributions table because they were relevant to our investigation. We filtered to find all transactions amounts greater than zero as we only wanted to examine cases where actual transactions were made and not a return or any other off amount that would skew our data. 
 ```{r}
 contributions_table <- contributions %>%
   select(state, transaction_amt) %>%
   filter(transaction_amt > 0)
 ```  
-Lastly, we joined the two tables by state and calculated the average transaction amount for each state. We arranged the table from greatest average transaction to least. 
+Lastly, we took the two tables above and joined them together by the state variable that they both have. Then we grouped by state and calculated the average transaction amount for each state by using a summarize funtion. We arranged the table from greatest average transaction to least. 
 ```{r, warning = FALSE}
 final_table <- elections_table %>%
   inner_join(contributions_table, by = c("state")) %>%
@@ -41,7 +42,7 @@ print(final_table)
 ```
 
 ##Data Graphic
-We plotted state (in the midwest) against the average transaction amount for that state. 
+We plotted state (specifically in the midwest) as the x against the average transaction amount for that state as the y. We did this using a bar graph.
 ```{r, warning = FALSE}
 state_graph <- ggplot(data = final_table, aes(x=state, y=avg_transaction)) +
   geom_bar(mapping = NULL, data = NULL, stat = "identity") +
@@ -58,6 +59,9 @@ print(state_graph)
 
 ##Data Explanation
 Higher values of avgerage transaction indicates that a state's committees designate greater amounts of money to politics. Including transaction types from spending against a candidate to loans, a higher average indicates that a state assigned more monetary value to its political climate.
+
+##Background Info
+Knowing that the cap for any type of transaction when it comes to a committee is 5000 dollars helps to explain why these numbers aveages top at Illinois's whopping 3,368. While this isn't an exact number a committee has put towards a candidate that's about how much one usually does. It is probable that we are seeing such high numbers in Illinois because it is the most pronounced state that is overtly democratic though it was historically a swing state that leaned Republican. Since it is a state that leans heavily one way the money flow is from the minor party trying to keep up and the majority trying to keep them in their place. While Minnesota being one on the lower scale had a year where the majority one was a switch or swing from pervious years. The numbers are fairly close though a difference of eleven made the Republicans become the majority seat holder. North Dakota is second highest on this graphic and it also has the tend of having a party with a larger majority 
 
 ##function
 Loop over the individual states in the midwest region. 
